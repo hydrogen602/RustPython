@@ -293,7 +293,7 @@ impl VirtualMachine {
         };
 
         let syntax_error = self.new_exception_msg(syntax_error_type, error.error.to_string());
-        let (lineno, offset) = error.python_location();
+        let (lineno, offset, end_offset) = error.python_location();
         let lineno = self.ctx.new_int(lineno);
         let offset = self.ctx.new_int(offset);
         syntax_error
@@ -302,8 +302,19 @@ impl VirtualMachine {
             .unwrap();
         syntax_error
             .as_object()
-            .set_attr("offset", offset, self)
+            .set_attr("offset", offset.clone(), self)
             .unwrap();
+        syntax_error
+            .as_object()
+            .set_attr("nope_nope", offset, self)
+            .unwrap();
+        if let Some(end_offset) = end_offset {
+            let end_offset = self.ctx.new_int(end_offset);
+            syntax_error
+                .as_object()
+                .set_attr("end_offset", end_offset, self)
+                .unwrap();
+        }
 
         syntax_error
             .as_object()

@@ -177,10 +177,7 @@ impl SymbolTableError {
     pub fn into_codegen_error(self, source_path: String) -> CodegenError {
         CodegenError {
             error: CodegenErrorType::SyntaxError(self.error),
-            location: self.location.map(|l| SourceLocation {
-                row: l.row,
-                column: l.column,
-            }),
+            location: self.location,
             source_path,
         }
     }

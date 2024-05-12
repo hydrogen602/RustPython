@@ -187,6 +187,7 @@ pub fn deserialize_code<R: Read, Bag: ConstantBag>(
             Ok(SourceLocation {
                 row: OneIndexed::new(rdr.read_u32()?).ok_or(MarshalError::InvalidLocation)?,
                 column: OneIndexed::from_zero_indexed(rdr.read_u32()?),
+                end_column: None,
             })
         })
         .collect::<Result<Box<[SourceLocation]>>>()?;

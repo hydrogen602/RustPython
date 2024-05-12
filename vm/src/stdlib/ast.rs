@@ -151,6 +151,7 @@ fn range_from_object(
         Some(SourceLocation {
             row: OneIndexed::new(row)?,
             column: OneIndexed::from_zero_indexed(column),
+            end_column: None,
         })
     }
     let row = ast::Int::ast_from_object(vm, get_node_field(vm, &object, "lineno", name)?)?;
